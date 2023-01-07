@@ -8,47 +8,57 @@ export class BoardModel {
         this.board = board;
     }
 
+    isSquareEmpty(row: number, col: number): boolean {
+        if (this.board[row][col].empty) {
+            return true
+        }
+        return false
+    }
+
+    isSameSquare(changingX: number, changingY: number, startX: number, startY: number): boolean {
+        if (changingX === startX && changingY === startY) {
+            return true
+        }
+        return false
+    }
+
+    isInArr(possibleArr: number[], target: number): boolean {
+        for(let i = 0; i < possibleArr.length; i++) {
+            if (target === possibleArr[i]) {
+                return true
+            }
+        }
+        return false
+    }
+
     possibleMove(turns: boolean, setTurn: Dispatch<SetStateAction<boolean>>, changingX: number, changingY: number, startX: number, startY: number): boolean {
-        // if (turns) {
-        //     // only red can go
-        // } else {
-        //     // computer turn 
-        // }
-        if (this.board[changingY][changingX].empty || this.board[startX][startY].empty || (changingX === startX && changingY === startY)) {
-            console.log("No")
+        // implement turns
+
+        if (this.isSquareEmpty(changingX, changingY) === false || this.isSameSquare(changingX, changingY, startX, startY)) {
             return false
         } 
 
-        let possibleY = this.possibleYCheck(startY)
-        let possibleX = this.possibleXCheck(startX, startY)
-        let finalX = -1
-        let finalY = -1
+        let possibleYArr = this.possibleYCheck(startY)
+        let possibleXArr = this.possibleXCheck(startX, startY)
 
-        console.log("Possible: ", possibleX, possibleY) 
-        console.log("This is the start: ", startX, startY)
-        console.log("This is the changed: ", changingX, changingY) 
+        let possibleX = this.isInArr(possibleXArr, changingX)
+        let possibleY = this.isInArr(possibleYArr, changingY)
 
-        console.log("Yes")
-        for(let i = 0; i < possibleX.length; i++) {
-            if (changingX === possibleX[i]) {
-                finalX = changingX
-            }
-        }
-        for(let j = 0; j < possibleY.length; j++) {
-            if (changingY === possibleY[j]) {
-                finalY = changingY
-            }
-        }
 
-        if(finalX !== -1 && finalY !== -1) {
-            this.board[changingX][changingY].player.color = this.board[startX][startY].player.color
-            this.board[startX][startY].empty = true
+
+        if(possibleX && possibleY) {
+            let temp = this.board[startX][startY].player
+            this.board[changingX][changingY].player = temp
             this.board[changingX][changingY].empty = false
-            return true
-        } else {
-            console.log("Nope")
-            return false
+            this.board[startX][startY].empty = true
         }
+
+        return true
+    }
+
+    possibleAttack(changingX: number, changingY: number, startX: number, startY: number): number[] {
+        
+        return []
     }
 
     possibleYCheck(startY: number): number[] { 
