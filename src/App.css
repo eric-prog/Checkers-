@@ -59,6 +59,9 @@
   font-size: 2em;
   color: #F0F2F4;
 }
+.game-title {
+  color: brown;
+}
 .reset-btn {
   border: none;
   background-color: brown;
@@ -67,7 +70,19 @@
   font-size: 0.9em;
   color: #F0F2F4;
   font-family: 'Rowdies', cursive;
+  margin: 2vh;
 }
 .player {
   color: rgb(0, 255, 234);
+}
+.game-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.game-options {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
