@@ -10,7 +10,7 @@ function App() {
   var board = new BoardModel(checkersBoard.createBoard())
 
   useEffect(() => {
-    console.log(board.board)
+    // console.log(board.board)
   }, [JSON.stringify(board.board)])
 
   return (

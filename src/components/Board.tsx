@@ -15,9 +15,14 @@ function Board({ board }: { board: BoardModel }) {
   const [drop, setDrop] = useState(false);
 
   useEffect(() => {
-    if (drop)
-      board.possibleMove(turns, setTurn, changingX, changingY, startX, startY);
-      setDrop(false)
+    if (drop) {
+      if(board.turn(turns, setTurn, changingX, changingY, startX, startY)) {
+        setDrop(false)
+      } else {
+        setDrop(true)
+        setDrop(false)
+      }
+    }
   }, [drop]);
 
   return (
