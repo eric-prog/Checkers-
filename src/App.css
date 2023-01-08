@@ -1,10 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Rowdies:wght@300;700&display=swap');
+
 .app {
   color: #353C4E;
-  background: #F0F2F4;
+  background: #8c8c8c;
   display: flex;
   flex-direction: column;
   justify-content: center;
   height: 100%;
+}
+
+.checkers-board {
+  margin-top: 8vh;
+  margin-bottom: 8vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .content {
@@ -29,4 +40,34 @@
   font-size: .9rem;
   margin-bottom: 10vh;
   text-align: center;
+}
+
+.winner-popup {
+  width: 50%;
+  height: 50%;
+  background-color: #ac6f0d;
+  font-family: 'Rowdies', cursive;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4vh;
+  margin-bottom: 7vh;
+  border-radius: 35px;
+  border: 6px solid #fac97b;
+}
+.winner-title {
+  font-size: 2em;
+  color: #F0F2F4;
+}
+.reset-btn {
+  border: none;
+  background-color: brown;
+  border-radius: 23px;
+  padding: 20px 30px 20px 30px;
+  font-size: 0.9em;
+  color: #F0F2F4;
+  font-family: 'Rowdies', cursive;
+}
+.player {
+  color: rgb(0, 255, 234);
 }

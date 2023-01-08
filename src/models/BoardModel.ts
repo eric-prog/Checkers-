@@ -3,10 +3,24 @@ import { PlayerModel } from "./PlayerModel";
 import { SquareModel } from "./SquareModel";
 
 export class BoardModel {
-    board: SquareModel[][] = [];    
+    board: SquareModel[][] = []; 
+    numHumanPlayers: number;
+    numComputerPlayers: number;   
 
-    constructor(board: SquareModel[][]) {
+    constructor(board: SquareModel[][], numHumanPlayers: number, numComputerPlayers: number) {
         this.board = board;
+        this.numHumanPlayers = numHumanPlayers;
+        this.numComputerPlayers = numComputerPlayers;
+    }
+
+    isGameOver(): string {
+        if (this.numHumanPlayers === 0) {
+            return "Human"
+        } else if (this.numComputerPlayers === 0) {
+            return "Computer"
+        } else {
+            return ""
+        }
     }
 
     isSquareEmpty(row: number, col: number): boolean {
@@ -39,15 +53,7 @@ export class BoardModel {
         return false
     }
 
-    endGame(loserX: number, loserY: number) {
-        if (this.board[loserX][loserY].player.isComputer) {
-            console.log("Computer won")
-        } else {
-            console.log("Player won")
-        }
-    }
-
-    turn(turns: boolean, setTurn: Dispatch<SetStateAction<boolean>>, changingX: number, changingY: number, startX: number, startY: number) {
+    turn(turns: boolean, setTurn: Dispatch<SetStateAction<boolean>>, changingX: number, changingY: number, startX: number, startY: number): boolean {
         if(this.possibleMove(turns, changingX, changingY, startX, startY)) {
             setTurn(!turns)
             return true
@@ -89,7 +95,7 @@ export class BoardModel {
         if (this.isSquareEmpty(changingX, changingY) === false || this.isSameSquare(changingX, changingY, startX, startY) || this.isSameTeam(changingX, changingY, startX, startY)) {
             return false
         } 
-        
+
         let possibleYArr = this.possibleYCheck(startY)
         let possibleXArr = this.possibleXCheck(startX, startY)
         let possibleAttack = this.possibleAttack(changingX, changingY, startX, startY)
@@ -106,12 +112,11 @@ export class BoardModel {
             let removeX = (startX + changingX)/2
             let removeY = (startY + changingY)/2
 
-            this.board[removeX][removeY].player.num_peices -= 1
-
-            if (this.board[removeX][removeY].player.num_peices === 0) {
-                this.endGame(removeX, removeY);
+            if (this.board[removeX][removeY].player.color === "black") {
+                this.numHumanPlayers -= 1
+            } else {
+                this.numComputerPlayers -= 1
             }
-
             this.board[removeX][removeY].player.special = false
             this.board[removeX][removeY].empty = true
         }

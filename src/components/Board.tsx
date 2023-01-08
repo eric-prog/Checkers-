@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { BoardModel } from "../models/BoardModel";
 import Square from "./Square";
 import "../styles/Board.css";
 
-function Board({ board }: { board: BoardModel }) {
+
+function Board({ board, setWinner }: { board: BoardModel, setWinner: Dispatch<SetStateAction<string>>}) {
   const [turns, setTurn] = useState(true);
 
   const [changingX, setChangingX] = useState(0);
@@ -17,6 +18,15 @@ function Board({ board }: { board: BoardModel }) {
   useEffect(() => {
     if (drop) {
       if(board.turn(turns, setTurn, changingX, changingY, startX, startY)) {
+        let possibleWinner = board.isGameOver()
+        if (possibleWinner !== "") {
+          setTurn(true)
+          setChangingX(0)
+          setChangingY(0)
+          setStartX(0)
+          setStartY(0)
+          setWinner(possibleWinner)
+        }
         setDrop(false)
       } else {
         setDrop(true)

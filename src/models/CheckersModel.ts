@@ -26,11 +26,11 @@ export class CheckersModel {
             for(let j = 0; j < 8; j++) {
                 let singleSquare;
                 if (player_board[i][j] === "r") {
-                    singleSquare = new SquareModel(i, j, 120, 120, false, "", new PlayerModel("#E1000E", 100, 100, true, 12, false))
+                    singleSquare = new SquareModel(i, j, 120, 120, false, "", new PlayerModel("#E1000E", 100, 100, true, false))
                 } else if (player_board[i][j] === "b") {
-                    singleSquare = new SquareModel(i, j, 120, 120, false, "", new PlayerModel("black", 100, 100, false, 12, false))
+                    singleSquare = new SquareModel(i, j, 120, 120, false, "", new PlayerModel("black", 100, 100, false, false))
                 } else {
-                    singleSquare = new SquareModel(i, j, 120, 120, true, "", new PlayerModel("#773005", 100, 100, false, 12, false))
+                    singleSquare = new SquareModel(i, j, 120, 120, true, "", new PlayerModel("#773005", 100, 100, false, false))
                 }
 
                 if (color_board[i][j] === "s") {
@@ -44,70 +44,4 @@ export class CheckersModel {
         }
         return checkersBoard
     }
-
-    possibleMove(changingX: number, changingY: number, startX: number, startY: number) {
-        
-    }
-
-    // possibleMove(changingX: number, changingY: number, startX: number, startY: number): boolean {
-    //     // if (square.empty) {
-    //     //     return false
-    //     // }
-
-    //     // let possibleX = this.possibleXCheck(square)
-    //     // let possibleY = this.possibleYCheck(square)
-    //     // let possibleAttack = this.possibleAttack(square)
-
-    //     // for loops
-
-    //     // if (finalX === -1 || finalY === -1 || board.board[finalX][finalY].empty === false) {
-    //     //     return false
-    //     // }
-    //     return true
-    // }
-
-    // possibleAttack(square: SquareModel) {
-    //     let possibleAttack: number[][] = []
-    //     return possibleAttack
-    // }
-
-    // possibleXCheck(square: SquareModel) { // Col 
-    //     let possibleX: number[] = []
-    //     if (square.col === 0 || square.col === 7) {
-    //         if (square.col === 0) { 
-    //             possibleX.push(square.col + 1)
-    //         } else {              
-    //             possibleX.push(square.col - 1)
-    //         }
-    //     } else {
-    //         possibleX.push(square.col + 1)
-    //         possibleX.push(square.col - 1)
-    //     }
-
-    //     return possibleX
-    // }          
-
-    // possibleYCheck(square: SquareModel) { // Row
-    //     let possibleY: number[] = []
-    //     if (square.row === 0 || square.row === 7) {
-    //         if (square.row === 0) {
-    //             possibleY.push(square.row + 1)
-    //         } else {
-    //             possibleY.push(square.row - 1)
-    //         }  
-    //     } else {
-    //         if (square.player.special) {
-    //             possibleY.push(square.row + 1)
-    //             possibleY.push(square.row - 1)
-    //         } else {
-    //             if (square.player.color === "#E1000E") {
-    //                 possibleY.push(square.row + 1)
-    //             } else {
-    //                 possibleY.push(square.row - 1)
-    //             }
-    //         }
-    //     }
-
-    //     return possibleY
-    // }
 }
