@@ -2,7 +2,14 @@ import { PlayerModel } from "./PlayerModel";
 import { SquareModel } from "./SquareModel";
 
 export class CheckersModel {
-    createBoard() {
+    
+    /**
+     * Returns a multidimensional array of Square objects
+     *
+     * @param {}
+     * @return {SquareModel[][]} returns a multidimensional array of Square objects
+     */
+    createBoard(): SquareModel[][] {
         var checkersBoard: SquareModel[][] = []
         let player_board = [["-", "r", "-", "r", "-", "r", "-", "r"],
                             ["r", "-", "r", "-", "r", "-", "r", "-"],

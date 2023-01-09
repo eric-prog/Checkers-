@@ -5,7 +5,7 @@ import "../styles/Board.css";
 
 
 function Board({ board, setWinner, mode }: { board: BoardModel, setWinner: Dispatch<SetStateAction<string>>, mode: string}) {
-  const [turns, setTurn] = useState(true);
+  const [turns, setTurn] = useState(true); // by default black pieces start first
 
   const [changingX, setChangingX] = useState(0);
   const [changingY, setChangingY] = useState(0);
@@ -13,7 +13,7 @@ function Board({ board, setWinner, mode }: { board: BoardModel, setWinner: Dispa
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
 
-  const [drop, setDrop] = useState(false);
+  const [drop, setDrop] = useState(false); // user drag and drop
 
   function endGame(possibleWinner: string) {
     if (possibleWinner !== "") {
@@ -29,6 +29,7 @@ function Board({ board, setWinner, mode }: { board: BoardModel, setWinner: Dispa
   useEffect(() => {
     if (drop) {
       if(board.turn(mode, drop, setDrop, turns, setTurn, changingX, changingY, startX, startY)) {
+        console.log(drop, turns)
         let possibleWinner = board.isGameOver()
         endGame(possibleWinner)
       } else {
@@ -71,5 +72,6 @@ function Board({ board, setWinner, mode }: { board: BoardModel, setWinner: Dispa
     </div>
   );
 }
+
 
 export default Board;

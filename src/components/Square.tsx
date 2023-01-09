@@ -30,12 +30,10 @@ function Square(squareProps: SquareProps) {
     squareProps.setChangingY(square.col)
   }
 
-
   function handleDragEnd(e: DragEvent<HTMLDivElement>) {
     e.preventDefault()
     squareProps.setDrop(true)
   }
-
 
   return (
     <>
