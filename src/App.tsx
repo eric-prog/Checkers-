@@ -10,14 +10,14 @@ function App() {
   const [mode, setMode] = useState("")
 
   var checkersBoard = new CheckersModel()
-  var board = new BoardModel(checkersBoard.createBoard(), 12, 0)
+  var board = new BoardModel(checkersBoard.createBoard(), 12, 12)
 
   function resetGame() {
     setMode("")
     setWinner("")
   }
 
-  function faceHuman(mode: string) {
+  function facePlayer(mode: string) {
     setMode(mode)
     board = new BoardModel(checkersBoard.createBoard(), 12, 12)
   }
@@ -39,11 +39,11 @@ function App() {
         <div className='game-screen'>
           <h1 className="winner-title game-title">Welcome to Checkers!</h1>
           <div className='game-options'>
-            <button className='reset-btn' onClick={() => {faceHuman("Human")}}>Human vs Human</button>
-            <button className='reset-btn' onClick={() => {faceHuman("Computer")}}>Computer vs Human</button>
+            <button className='reset-btn' onClick={() => {facePlayer("Human")}}>Human vs Human</button>
+            <button className='reset-btn' onClick={() => {facePlayer("Computer")}}>Computer vs Human</button>
           </div>
         </div>
-        : <Board board={board} setWinner={setWinner} /> 
+        : <Board board={board} setWinner={setWinner} mode={mode} /> 
       }
     </div>
   )

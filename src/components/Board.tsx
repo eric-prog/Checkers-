@@ -4,7 +4,7 @@ import Square from "./Square";
 import "../styles/Board.css";
 
 
-function Board({ board, setWinner }: { board: BoardModel, setWinner: Dispatch<SetStateAction<string>>}) {
+function Board({ board, setWinner, mode }: { board: BoardModel, setWinner: Dispatch<SetStateAction<string>>, mode: string}) {
   const [turns, setTurn] = useState(true);
 
   const [changingX, setChangingX] = useState(0);
@@ -15,19 +15,22 @@ function Board({ board, setWinner }: { board: BoardModel, setWinner: Dispatch<Se
 
   const [drop, setDrop] = useState(false);
 
+  function endGame(possibleWinner: string) {
+    if (possibleWinner !== "") {
+      setTurn(true)
+      setChangingX(0)
+      setChangingY(0)
+      setStartX(0)
+      setStartY(0)
+      setWinner(possibleWinner)
+    }
+  }
+
   useEffect(() => {
     if (drop) {
-      if(board.turn(turns, setTurn, changingX, changingY, startX, startY)) {
+      if(board.turn(mode, drop, setDrop, turns, setTurn, changingX, changingY, startX, startY)) {
         let possibleWinner = board.isGameOver()
-        if (possibleWinner !== "") {
-          setTurn(true)
-          setChangingX(0)
-          setChangingY(0)
-          setStartX(0)
-          setStartY(0)
-          setWinner(possibleWinner)
-        }
-        setDrop(false)
+        endGame(possibleWinner)
       } else {
         setDrop(true)
         setDrop(false)
@@ -36,26 +39,36 @@ function Board({ board, setWinner }: { board: BoardModel, setWinner: Dispatch<Se
   }, [drop]);
 
   return (
-    <>
-      {board.board.map((row, i) => {
-        return (
-          <div key={i} className="checkers-row">
-            {row.map((square, j) => (
-              <Square
-                key={j}
-                square={square}
-                board={board}
-                setChangingX={setChangingX}
-                setChangingY={setChangingY}
-                setStartX={setStartX}
-                setStartY={setStartY}
-                setDrop={setDrop}
-              />
-            ))}
-          </div>
-        );
-      })}
-    </>
+    <div className="entire-board">
+      <div className="left-board">
+        {board.board.map((row, i) => {
+          return (
+            <div key={i} className="checkers-row">
+              {row.map((square, j) => (
+                <Square
+                  key={j}
+                  square={square}
+                  board={board}
+                  setChangingX={setChangingX}
+                  setChangingY={setChangingY}
+                  setStartX={setStartX}
+                  setStartY={setStartY}
+                  setDrop={setDrop}
+                />
+              ))}
+            </div>
+          );
+        })}
+      </div>
+      <div className="right-turn">
+        {
+          turns ? 
+          <div className="turn-b human-t"></div>
+          : 
+          <div className="turn-b computer-t"></div>
+        }
+      </div>
+    </div>
   );
 }
 
