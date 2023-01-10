@@ -90,6 +90,18 @@ I developed a simple algorithm located in BoardModel.ts in the ```makeComputerMo
 
 <br>
 
+## More Examples:
+
+- King Piece:
+<img src="./assets/special.png"></img>
+
+<br>
+- Winner!
+<img src="./assets/winner.png"></img>
+
+<br>
+- Game Screen
+<img src="./assets/gamescreen.png"></img>
 <!-- ## Things I am Proud of
 
 - No libraries were used

@@ -11,7 +11,7 @@ export class CheckersModel {
      */
     createBoard(): SquareModel[][] {
         var checkersBoard: SquareModel[][] = []
-        let player_board = [["-", "r", "-", "r", "-", "r", "-", "r"],
+        let player_board = [["-", "r", "-", "r", "-", "r", "-", "r"], // arrangement of red and black pieces denoted by "r" and "b" - red and black
                             ["r", "-", "r", "-", "r", "-", "r", "-"],
                             ["-", "r", "-", "r", "-", "r", "-", "r"],
                             ["-", "-", "-", "-", "-", "-", "-", "-"],
@@ -19,7 +19,7 @@ export class CheckersModel {
                             ["b", "-", "b", "-", "b", "-", "b", "-"],
                             ["-", "b", "-", "b", "-", "b", "-", "b"],
                             ["b", "-", "b", "-", "b", "-", "b", "-"]];
-        let color_board = [["s", "b", "s", "b", "s", "b", "s", "b"],
+        let color_board = [["s", "b", "s", "b", "s", "b", "s", "b"], // checkers board made up of differen color squares
                            ["b", "s", "b", "s", "b", "s", "b", "s"],
                            ["s", "b", "s", "b", "s", "b", "s", "b"],
                            ["b", "s", "b", "s", "b", "s", "b", "s"],
