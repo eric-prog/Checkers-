@@ -92,7 +92,7 @@ I developed a simple algorithm located in BoardModel.ts in the ```makeComputerMo
 
 ## More Examples:
 
-- King Piece:
+- King Piece: indicated by golden dot
 <img src="./assets/special.png"></img>
 
 <br>
