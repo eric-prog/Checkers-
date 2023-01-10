@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState, useCallback } from "react";
 import { BoardModel } from "../models/BoardModel";
 import Square from "./Square";
 import "../styles/Board.css";
@@ -26,10 +26,13 @@ function Board({ board, setWinner, mode }: { board: BoardModel, setWinner: Dispa
     }
   }
 
+  const makeTurn = useCallback(() => {
+    return board.turn(mode, setDrop, turns, setTurn, changingX, changingY, startX, startY)
+  }, [drop, turns])
+
   useEffect(() => {
     if (drop) {
-      if(board.turn(mode, drop, setDrop, turns, setTurn, changingX, changingY, startX, startY)) {
-        console.log(drop, turns)
+      if(makeTurn()) {
         let possibleWinner = board.isGameOver()
         endGame(possibleWinner)
       } else {

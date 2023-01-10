@@ -91,12 +91,58 @@ export class BoardModel {
         return false
     }
 
+    
+    /**
+     * Checks and makes a possible computer move
+     *
+     * @param {}
+     * @return {boolean} true since valid computer move was always be made
+     */
+    makeComputerMove() {
+        for (let i = 0; i < 8; i++) { // computer checks if it can attack
+            for (let j = 0; j < 8; j++) {
+                let currSquare = this.board[i][j]
+                let player = this.board[i][j].player
+                if (player.color === "#E1000E" && currSquare.empty === false) { // if it is a red checker piece and not empty
+                    if (this.possibleMove(false, i + 2, j + 2, i, j)) {
+                        return true
+                    } else if (this.possibleMove(false, i - 2, j + 2, i, j)) {
+                        return true
+                    } else if (this.possibleMove(false, i + 2, j - 2, i, j)) {
+                        return true
+                    } else if (this.possibleMove(false, i - 2, j - 2, i, j)) {
+                        return true
+                    }
+                }
+            }
+        }
+
+        for (let i = 0; i < 8; i++) { // second loop checks if it can just move diagonally
+            for (let j = 0; j < 8; j++) {
+                let currSquare = this.board[i][j]
+                let player = this.board[i][j].player
+                if (player.color === "#E1000E" && currSquare.empty === false) {
+                    if (this.possibleMove(false, i + 1, j + 1, i, j)) {
+                        return true
+                    } else if (this.possibleMove(false, i - 1, j + 1, i, j)) {
+                        return true
+                    } else if (this.possibleMove(false, i + 1, j - 1, i, j)) {
+                        return true
+                    } else if (this.possibleMove(false, i - 1, j - 1, i, j)) {
+                        return true
+                    }
+                }
+            }
+        }
+        
+        return true
+    }
+
 
     /**
      * Human and Computer turn handler. Handles turns 
      *
      * @param {string} mode string indicator of the game mode - human vs human or human vs computer
-     * @param {boolean} drop did the player drop the checker peices/make a move?
      * @param {Dispatch<SetStateAction<boolean>>} setDrop sets whether or not the user dropped a piece
      * @param {boolean} turns true or false. True is human, false is computer move
      * @param {Dispatch<SetStateAction<boolean>>} setTurn sets whose turn it is
@@ -106,64 +152,14 @@ export class BoardModel {
      * @param {number} startY the original col/y position that the player 
      * @return {boolean} if the turn was complete/is valid
      */
-    turn(mode: string, drop: boolean, setDrop: Dispatch<SetStateAction<boolean>>, turns: boolean, setTurn: Dispatch<SetStateAction<boolean>>, changingX: number, changingY: number, startX: number, startY: number): boolean {
-        if (mode === "Computer" && turns === false) {
-            
-            for (let i = 0; i < 8; i++) { // computer checks if it can attack
-                for (let j = 0; j < 8; j++) {
-                    let currSquare = this.board[i][j]
-                    let player = this.board[i][j].player
-                    if (player.color === "#E1000E" && currSquare.empty === false) {
-                        if (this.possibleMove(false, i + 2, j + 2, i, j)) {
-                            setTurn(!turns)
-                            setDrop(false)
-                            return true
-                        } else if (this.possibleMove(false, i - 2, j + 2, i, j)) {
-                            setTurn(!turns)
-                            setDrop(false)
-                            return true
-                        } else if (this.possibleMove(false, i + 2, j - 2, i, j)) {
-                            setTurn(!turns)
-                            setDrop(false)
-                            return true
-                        } else if (this.possibleMove(false, i - 2, j - 2, i, j)) {
-                            setTurn(!turns)
-                            setDrop(false)
-                            return true
-                        }
-                    }
-                }
+    turn(mode: string, setDrop: Dispatch<SetStateAction<boolean>>, turns: boolean, setTurn: Dispatch<SetStateAction<boolean>>, changingX: number, changingY: number, startX: number, startY: number): boolean {
+        if(this.possibleMove(turns, changingX, changingY, startX, startY)) {
+            if(mode === "Computer") { // if computer mode, then set turn to be humans automatically
+                this.makeComputerMove()
+                setTurn(true)
+            } else {
+                setTurn(!turns)
             }
-
-            for (let i = 0; i < 8; i++) { // second loop checks if it can just move diagonally
-                for (let j = 0; j < 8; j++) {
-                    let currSquare = this.board[i][j]
-                    let player = this.board[i][j].player
-                    if (player.color === "#E1000E" && currSquare.empty === false) {
-                        if (this.possibleMove(false, i + 1, j + 1, i, j)) {
-                            setTurn(!turns)
-                            setDrop(false)
-                            return true
-                        } else if (this.possibleMove(false, i - 1, j + 1, i, j)) {
-                            setTurn(!turns)
-                            setDrop(false)
-                            return true
-                        } else if (this.possibleMove(false, i + 1, j - 1, i, j)) {
-                            setTurn(!turns)
-                            setDrop(false)
-                            return true
-                        } else if (this.possibleMove(false, i - 1, j - 1, i, j)) {
-                            setTurn(!turns)
-                            setDrop(false)
-                            return true
-                        }
-                    }
-                }
-            }
-            
-            return true
-        } else if(this.possibleMove(turns, changingX, changingY, startX, startY)) {
-            setTurn(!turns)
             setDrop(false)
             return true
         } 
@@ -197,11 +193,11 @@ export class BoardModel {
      * @return {} void function
      */
     changePos(startX: number, startY: number, changingX: number, changingY: number)  {
-        let temp = this.board[startX][startY].player
-        let future_player = this.board[changingX][changingY].player
+        let temp = this.board[startX][startY].player // stores current player
+        let future_player = this.board[changingX][changingY].player // stores the player of the desired square
 
-        this.board[startX][startY].player = future_player
-        this.board[startX][startY].empty = true
+        this.board[startX][startY].player = future_player 
+        this.board[startX][startY].empty = true // sets current square empty to true
         this.board[startX][startY].player.special = false
 
         this.board[changingX][changingY].player = temp
@@ -220,7 +216,7 @@ export class BoardModel {
      * @return {boolean} true if coordinate is out of bounds
      */
     outOfBoard(changingX: number, changingY: number): boolean {
-        if (changingX > 7 || changingX < 0 || changingY > 7 || changingY < 0) {
+        if (changingX > 7 || changingX < 0 || changingY > 7 || changingY < 0) { // if greater than the dimensions of the array/board
             return true
         }   
         return false
@@ -238,16 +234,16 @@ export class BoardModel {
      */
     possibleMove(turns: boolean, changingX: number, changingY: number, startX: number, startY: number): boolean {
         let computerPlayer = this.board[startX][startY].player.isComputer
-        if (turns && computerPlayer) {
+        if (turns && computerPlayer) { // if it's human turn and is computerPlayer then the selected square is not valid since it's Computer piece not human piece
             return false
         } 
-        if (turns === false && !computerPlayer) {
+        if (turns === false && !computerPlayer) { // if it's human turn and the selected square player is computer player, not valid
             return false
         } 
-        if (this.outOfBoard(changingX, changingY)) {
+        if (this.outOfBoard(changingX, changingY)) { // if out of bounds / dimensions of array and board
             return false
         }
-        if (this.isSquareEmpty(changingX, changingY) === false || this.isSameSquare(changingX, changingY, startX, startY)) {
+        if (this.isSquareEmpty(changingX, changingY) === false || this.isSameSquare(changingX, changingY, startX, startY)) { // desired square is same square or not empty and contains a player, not valid
             return false
         } 
 
@@ -336,7 +332,7 @@ export class BoardModel {
 
         if (currentSquare.player.color === "#E1000E") { // RED PIECES
             if(currentSquare.player.special) {
-                if(this.isDiagonalEnemy(startX, startY, checkXMinus, checkYMinus) && this.isThirdEmpty(checkXMinus-1, checkYMinus-1)) {
+                if(this.isDiagonalEnemy(startX, startY, checkXMinus, checkYMinus) && this.isThirdEmpty(checkXMinus-1, checkYMinus-1)) { // check if the diagonal is an enemy and the piece diagonal of the enemy is empty, then it's a valid attack
                     if (this.isSameSquare(changingX, changingY, checkXMinus-1, checkYMinus-1)) {
                         return true
                     }
@@ -394,13 +390,13 @@ export class BoardModel {
      */
     possibleYCheck(startY: number): number[] { 
         let possibleY: number[] = []
-        if (startY === 0 || startY === 7) {
+        if (startY === 0 || startY === 7) { // if on the edge
             if (startY === 0) { 
                 possibleY.push(startY + 1)
             } else {              
                 possibleY.push(startY - 1)
             }
-        } else {
+        } else { // any piece can move left and right diagonally 
             possibleY.push(startY + 1)
             possibleY.push(startY - 1)
         }
@@ -424,7 +420,7 @@ export class BoardModel {
                 possibleX.push(startX - 1)
             }  
         } else {
-            if (this.board[startX][startY].player.special) {
+            if (this.board[startX][startY].player.special) { // if it's a king/special piece then it can move backwards as well
                 possibleX.push(startX + 1)
                 possibleX.push(startX - 1)
             } else {

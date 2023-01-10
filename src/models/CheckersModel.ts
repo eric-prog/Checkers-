@@ -26,7 +26,7 @@ export class CheckersModel {
                            ["s", "b", "s", "b", "s", "b", "s", "b"],
                            ["b", "s", "b", "s", "b", "s", "b", "s"],
                            ["s", "b", "s", "b", "s", "b", "s", "b"],
-                           ["b", "s", "b", "s", "b", "s", "b", "s"],];
+                           ["b", "s", "b", "s", "b", "s", "b", "s"]];
 
         for(let i = 0; i < 8; i++) {
             let squareArray: SquareModel[] = []
